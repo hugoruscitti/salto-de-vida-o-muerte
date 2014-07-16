@@ -98,7 +98,7 @@ class EscenaJuego(pilasengine.escenas.Escena):
                         self.escala=1
                         self.x=430
                         self.y=random.choice([230,130,30,-130,-230])
-                        self.definir_area_colision(0,0,190,100)
+                        self.definir_area_colision(0,10,130,80)
 
                 def actualizar(self):
                         self.imagen.avanzar(24)
