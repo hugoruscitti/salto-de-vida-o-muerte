@@ -1,11 +1,10 @@
-import sys
+# -*- encoding: utf-8 -*-
 import pilasengine
+import random
+import sys
 
 pilas = pilasengine.iniciar(capturar_errores=False)
 pilas.depurador.definir_modos(fisica=False)
-
-import random
-
 
 
 class EscenaJuego(pilasengine.escenas.Escena):
@@ -204,7 +203,6 @@ def choque(player, nube):
 
     escena = EscenaGameOver(pilas)
     pilas.escenas.definir_escena(escena)
-
 
 
 escena = EscenaJuego(pilas)
