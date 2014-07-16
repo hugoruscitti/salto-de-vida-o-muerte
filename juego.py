@@ -94,13 +94,14 @@ class EscenaJuego(pilasengine.escenas.Escena):
         class avion(pilasengine.actores.Actor):
 
                 def iniciar(self):
-                        self.imagen="eli 2.png"
+                        self.imagen= self.pilas.imagenes.cargar_grilla("eli-1.png", 2)
                         self.escala=1
                         self.x=430
                         self.y=random.choice([230,130,30,-130,-230])
                         self.definir_area_colision(0,0,190,100)
 
                 def actualizar(self):
+                        self.imagen.avanzar(24)
                         self.x -=2
 
                         if self.x<-450:
