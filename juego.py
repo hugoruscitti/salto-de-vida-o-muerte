@@ -1,7 +1,4 @@
 import sys
-
-sys.path.append(".")
-sys.path.append("..")
 import pilasengine
 
 pilas = pilasengine.iniciar(capturar_errores=False)
@@ -22,19 +19,23 @@ class EscenaJuego(pilasengine.escenas.Escena):
         class Puntaje(pilasengine.actores.Texto):
 
                 def __init__(self, pilas, x=0, y=0):
-                        pilasengine.actores.Texto.__init__(self, pilas, "0", x, y, fuente='digiffiti.ttf')
+                        pilasengine.actores.Texto.__init__(self, pilas, "", 20, fuente='digiffiti.ttf')
                         self.color = pilasengine.colores.negro
                         self.valor = 0
-                        self.escala=2
+                        self.escala = 2
+
                 def aumentar(self):
                         self.valor += 1
                         self.texto = "TIME:" + str(self.valor)
 
 
         p = Puntaje(pilas)
-        p.y=219
-        p.x=-296
+        p.y = [300, 219]
+        p.x=-300
         p.z=-50
+
+
+
         def aumentar_puntaje():
             p.aumentar()
         pilas.escena_actual().tareas.siempre(1,aumentar_puntaje)
