@@ -2,9 +2,13 @@
 import pilasengine
 import random
 import sys
+sys.path.insert(0, "..")
 
 pilas = pilasengine.iniciar(capturar_errores=False)
 pilas.depurador.definir_modos(fisica=False)
+
+musica = pilas.musica.cargar("musica.ogg")
+musica.reproducir()
 
 your_time = 0
 best_time = 30
@@ -12,11 +16,10 @@ best_time = 30
 
 class EscenaJuego(pilasengine.escenas.Escena):
 
+
     def iniciar(self):
         enemigos = []
         pilas.fondos.Fondo("fondo.png")
-        self.musica=pilas.musica.cargar("musica.mp3")
-        self.musica.reproducir()
 
         class Puntaje(pilasengine.actores.Texto):
 
@@ -35,7 +38,6 @@ class EscenaJuego(pilasengine.escenas.Escena):
         p.y = [300, 219]
         p.x=-300
         p.z=-50
-
 
 
         def aumentar_puntaje():
@@ -228,4 +230,9 @@ class EscenaGameOver(pilasengine.escenas.Escena):
 
 escena = EscenaJuego(pilas)
 pilas.escenas.definir_escena(escena)
+
+
+
+
+
 pilas.ejecutar()
