@@ -8,10 +8,10 @@ pilas = pilasengine.iniciar(capturar_errores=False)
 pilas.depurador.definir_modos(fisica=False)
 
 musica = pilas.musica.cargar("musica.ogg")
-musica.reproducir()
-
+musica.reproducir(True)
+archivo=open("best.txt")
 your_time = 0
-best_time = 30
+best_time = int(archivo.read())
 
 
 class EscenaJuego(pilasengine.escenas.Escena):
@@ -52,10 +52,10 @@ class EscenaJuego(pilasengine.escenas.Escena):
                         #self.aprender(pilas.habilidades.MoverseConElTeclado)
                         self.definir_area_colision(0,0,80,125)
                         self.y=280
-
+                        self.cansado=0
                 def actualizar(self):
                         self.y-=1
-
+                        print self.cansado
                         velocidad_x = self.pilas.pad.x * 4
                         velocidad_y = self.pilas.pad.y * 4
 
@@ -67,7 +67,9 @@ class EscenaJuego(pilasengine.escenas.Escena):
 
                         if self.pilas.control.arriba:
                             velocidad_y = 4
-
+                            self.cansado+=1
+                            if self.cansado>126:
+                                velocidad_y= 2
                         if self.pilas.control.abajo:
                             velocidad_y = -4
 
@@ -81,7 +83,9 @@ class EscenaJuego(pilasengine.escenas.Escena):
                             self.imagen="sopla arriba.png"
                         if velocidad_y <0:
                             self.imagen="abajo.png"
-
+                        if velocidad_x==0 and velocidad_y==0:
+                            if self.cansado>0:
+                                self.cansado-=1
                         self.x += velocidad_x
                         self.y += velocidad_y
 
@@ -183,12 +187,17 @@ class EscenaJuego(pilasengine.escenas.Escena):
             your_time = p.valor
 
             global best_time
-
             if your_time > best_time:
                 best_time = your_time
-
+                archivo=open("best.txt","wt")
+                archivo.write(str(best_time))
+                archivo.close()
+            
             escena = EscenaGameOver(pilas)
             pilas.escenas.definir_escena(escena)
+                
+            if your_time == best_time:
+                escena.mostrar_best()
 
         pilas.escena.tareas.siempre(5,mover_nube)
         pilas.escena.colisiones.agregar(player, nube, choque)
@@ -200,12 +209,8 @@ class EscenaGameOver(pilasengine.escenas.Escena):
         self.contador = 0
         gameover=pilas.actores.Actor()
         gameover.imagen="gameover.png"
-        gameover.z=-1000
         gameover.transparencia=100
         gameover.transparencia=[0]
-
-        global best_time
-        global your_time
 
         tu_tiempo = self.pilas.actores.Texto(str(your_time))
         tu_tiempo.x = 40
@@ -214,7 +219,14 @@ class EscenaGameOver(pilasengine.escenas.Escena):
         mejor_tiempo = self.pilas.actores.Texto(str(best_time))
         mejor_tiempo.x = 40
         mejor_tiempo.y = -70
-
+    def mostrar_best(self):
+        global best_time
+        global your_time
+        newbest=pilas.actores.Actor()
+        newbest.imagen="newbest.png"
+        newbest.z=-10
+        newbest.y=-150
+        newbest.escala=[1,2]*1000
     def actualizar(self):
         self.contador += 1
 
