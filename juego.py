@@ -28,7 +28,7 @@ class EscenaJuego(pilasengine.escenas.Escena):
                 def aumentar(self):
                         self.valor += 1
                         self.texto = "TIME:" + str(self.valor)
-                        
+
 
         p = Puntaje(pilas)
         p.y=219
@@ -52,17 +52,18 @@ class EscenaJuego(pilasengine.escenas.Escena):
 
                         velocidad_x = self.pilas.pad.x * 4
                         velocidad_y = self.pilas.pad.y * 4
+
                         if velocidad_x >0:
                             self.imagen="derecha.png"
                         if velocidad_x ==0:
                             self.imagen="normal.png"
-                        if velocidad_x <0:	
+                        if velocidad_x <0:
                             self.imagen="izquierda.png"
                         if velocidad_y >0:
                             self.imagen="sopla arriba.png"
-                        if velocidad_y <0:	
+                        if velocidad_y <0:
                             self.imagen="abajo.png"
-	
+
                         self.x += velocidad_x
                         self.y += velocidad_y
 
@@ -88,7 +89,7 @@ class EscenaJuego(pilasengine.escenas.Escena):
 
                 def actualizar(self):
                         self.x -=2
-                        
+
                         if self.x<-450:
                                 self.eliminar()
 
@@ -129,7 +130,7 @@ class EscenaJuego(pilasengine.escenas.Escena):
             def iniciar(self):
                 self.imagen = "nube 0.png"
                 self.transparencia = 100
-				
+
             def actualizar(self):
                 self.transparencia -= 0.8
 
@@ -146,14 +147,14 @@ class EscenaJuego(pilasengine.escenas.Escena):
                 a=AnticipacionNube(pilas)
                 a.x = pos_x
                 a.y = pos_y
-                
+
                 def mover():
                     nube.x = pos_x
                     nube.y = pos_y
                     a.eliminar()
-                    
+
                 pilas.escena.tareas.una_vez(2, mover)
-				
+
         mover_nube()
 
 
@@ -161,7 +162,6 @@ class EscenaJuego(pilasengine.escenas.Escena):
         pilas.escena.tareas.siempre(5,mover_nube)
         pilas.escena.colisiones.agregar(player, nube, choque)
         pilas.escena.colisiones.agregar(player,enemigos, choque)
-
 
 class EscenaGameOver(pilasengine.escenas.Escena):
 
@@ -177,8 +177,6 @@ class EscenaGameOver(pilasengine.escenas.Escena):
     def adelantar(self, data):
         escena = EscenaJuego(pilas)
         pilas.escenas.definir_escena(escena)
-
-
 
 def choque(player, nube):
     player.eliminar()
