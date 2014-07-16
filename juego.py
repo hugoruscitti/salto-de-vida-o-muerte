@@ -53,6 +53,18 @@ class EscenaJuego(pilasengine.escenas.Escena):
                         velocidad_x = self.pilas.pad.x * 4
                         velocidad_y = self.pilas.pad.y * 4
 
+                        if self.pilas.control.izquierda:
+                            velocidad_x = -4
+
+                        if self.pilas.control.derecha:
+                            velocidad_x = 4
+
+                        if self.pilas.control.arriba:
+                            velocidad_y = 4
+
+                        if self.pilas.control.abajo:
+                            velocidad_y = -4
+
                         if velocidad_x >0:
                             self.imagen="derecha.png"
                         if velocidad_x ==0:
@@ -173,6 +185,7 @@ class EscenaGameOver(pilasengine.escenas.Escena):
         gameover.transparencia=[0]
 
         self.pulsa_boton.conectar(self.adelantar)
+        self.pulsa_tecla.conectar(self.adelantar)
 
     def adelantar(self, data):
         escena = EscenaJuego(pilas)
