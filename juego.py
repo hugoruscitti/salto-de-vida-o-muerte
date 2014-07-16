@@ -22,7 +22,8 @@ class EscenaJuego(pilasengine.escenas.Escena):
         class Puntaje(pilasengine.actores.Texto):
 
                 def __init__(self, pilas, x=0, y=0):
-                        pilasengine.actores.Texto.__init__(self, pilas, "0", x, y)
+                        pilasengine.actores.Texto.__init__(self, pilas, "0", x, y, fuente='digiffiti.ttf')
+                        self.color = pilasengine.colores.negro
                         self.valor = 0
                         self.escala=2
                 def aumentar(self):
