@@ -179,14 +179,19 @@ class EscenaJuego(pilasengine.escenas.Escena):
 class EscenaGameOver(pilasengine.escenas.Escena):
 
     def iniciar(self):
+        self.contador = 0
         gameover=pilas.actores.Actor()
         gameover.imagen="gameover.png"
         gameover.z=-1000
         gameover.transparencia=100
         gameover.transparencia=[0]
 
-        self.pulsa_boton.conectar(self.adelantar)
-        self.pulsa_tecla.conectar(self.adelantar)
+    def actualizar(self):
+        self.contador += 1
+
+        if self.contador == 60:
+            self.pulsa_boton.conectar(self.adelantar)
+            self.pulsa_tecla.conectar(self.adelantar)
 
     def adelantar(self, data):
         escena = EscenaJuego(pilas)
