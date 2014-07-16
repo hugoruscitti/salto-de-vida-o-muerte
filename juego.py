@@ -6,6 +6,9 @@ import sys
 pilas = pilasengine.iniciar(capturar_errores=False)
 pilas.depurador.definir_modos(fisica=False)
 
+your_time = 0
+best_time = 30
+
 
 class EscenaJuego(pilasengine.escenas.Escena):
 
@@ -171,7 +174,19 @@ class EscenaJuego(pilasengine.escenas.Escena):
 
         mover_nube()
 
+        def choque(player, nube):
+            player.eliminar()
 
+            global your_time
+            your_time = p.valor
+
+            global best_time
+
+            if your_time > best_time:
+                best_time = your_time
+
+            escena = EscenaGameOver(pilas)
+            pilas.escenas.definir_escena(escena)
 
         pilas.escena.tareas.siempre(5,mover_nube)
         pilas.escena.colisiones.agregar(player, nube, choque)
@@ -187,6 +202,17 @@ class EscenaGameOver(pilasengine.escenas.Escena):
         gameover.transparencia=100
         gameover.transparencia=[0]
 
+        global best_time
+        global your_time
+
+        tu_tiempo = self.pilas.actores.Texto(str(your_time))
+        tu_tiempo.x = 40
+        tu_tiempo.y = -5
+
+        mejor_tiempo = self.pilas.actores.Texto(str(best_time))
+        mejor_tiempo.x = 40
+        mejor_tiempo.y = -70
+
     def actualizar(self):
         self.contador += 1
 
@@ -198,11 +224,6 @@ class EscenaGameOver(pilasengine.escenas.Escena):
         escena = EscenaJuego(pilas)
         pilas.escenas.definir_escena(escena)
 
-def choque(player, nube):
-    player.eliminar()
-
-    escena = EscenaGameOver(pilas)
-    pilas.escenas.definir_escena(escena)
 
 
 escena = EscenaJuego(pilas)
